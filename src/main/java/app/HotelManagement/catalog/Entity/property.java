@@ -38,9 +38,7 @@ public class property {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    //RelationShips room_type;
-    @OneToMany(mappedBy = "property")
-    private List<roomType> room_type;
+
 
     //Relationship rooms
     @OneToMany(mappedBy = "property")
