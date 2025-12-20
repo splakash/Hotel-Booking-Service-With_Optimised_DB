@@ -24,7 +24,7 @@ public class AppUser {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)
-    private UserRole role = UserRole.GUEST;
+    private UserRole role ;
 
     @Column(nullable = false)
     private boolean enabled = true;
@@ -44,6 +44,6 @@ public class AppUser {
     public void onCreate() {
         this.createdAt = LocalDateTime.now();
         this.updatedAt = this.createdAt;
-        if (this.role == null) this.role = UserRole.GUEST;
+        if (this.role == null) this.role = UserRole.USER;
     }
 }

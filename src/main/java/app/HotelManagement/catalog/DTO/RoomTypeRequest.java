@@ -18,17 +18,21 @@ public class RoomTypeRequest {
     @Size(max = 50)
     private String code;
 
+    @NotBlank(message = "total number of room is required")
+    private Integer totalRooms;
     @NotBlank(message = "Name is required")
     @Size(max = 100)
     private String name;
 
-    @NotNull(message = "Occupancy (adults) is required")
-    @Min(value = 1, message = "Adults must be at least 1")
-    private Integer occupancyAdults;
+    private double basePrice;
 
-    @NotNull(message = "Occupancy (children) is required")
-    @Min(value = 0, message = "Children cannot be negative")
-    private Integer occupancyChildren;
+//    @NotNull(message = "Occupancy (adults) is required")
+//    @Min(value = 1, message = "Adults must be at least 1")
+//    private Integer occupancyAdults;
+//
+//    @NotNull(message = "Occupancy (children) is required")
+//    @Min(value = 0, message = "Children cannot be negative")
+//    private Integer occupancyChildren;
 
     @Size(max = 500)
     private String description;

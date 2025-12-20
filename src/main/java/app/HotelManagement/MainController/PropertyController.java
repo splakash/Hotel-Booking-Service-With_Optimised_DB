@@ -1,9 +1,10 @@
 package app.HotelManagement.MainController;
-
+import app.HotelManagement.Services.PropertyDetailsService;
 import app.HotelManagement.Services.PropertyService;
+import app.HotelManagement.catalog.DTO.PropertyDetailsResponse;
+import app.HotelManagement.catalog.DTO.PropertyResponse;
 import app.HotelManagement.catalog.DTO.propertyRequest;
-import app.HotelManagement.catalog.Entity.property;
-import app.HotelManagement.catalog.Repository.propertyRepo;
+import app.HotelManagement.catalog.Entity.Property;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,43 +12,40 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/v1/admin")
+@RequestMapping("/v1")
+@CrossOrigin(origins = "http://localhost:5173")
 public class PropertyController {
 
 
     @Autowired
     private final PropertyService propertyservice;
 
+    @Autowired
+    private PropertyDetailsService propertyDetailsService;
+
     public PropertyController(PropertyService propertyservice) {
         this.propertyservice = propertyservice;
     }
-    //add new property
-    @PostMapping("/add/properties")
-    public ResponseEntity<?> addNewProperty(@RequestBody propertyRequest propertyRequest){
-        return propertyservice.addNewPropertyService(propertyRequest);
+
+    @GetMapping("/properties")
+    public ResponseEntity<List<PropertyResponse>> list() {
+        List<Property> all = propertyservice.findAll();
+        return ResponseEntity.ok(propertyservice.PropertyList());
     }
 
-    @GetMapping("/property/all")
-    public ResponseEntity<List<property>> list() {
-        List<property> all = propertyservice.findAll();
-        return ResponseEntity.ok(all);
+    @GetMapping("/property/{id}/details")
+    public ResponseEntity<PropertyDetailsResponse> getPropertyDetails(@PathVariable Long id){
+        return ResponseEntity.ok(propertyDetailsService.PropertyDetails(id));
     }
 
-    @GetMapping("/properties/{id}")
-    public ResponseEntity<property> get(@PathVariable Long id) {
+
+    @GetMapping("/property/{id}")
+    public ResponseEntity<Property> get(@PathVariable Long id) {
         return propertyservice.findById(id)
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    //delete new property
-    @PostMapping("/remove/properties/{id}")
-    public ResponseEntity<?> RemoveProperty(@PathVariable Long id){
-        return propertyservice.RemovePropertyMethod(id);
-    }
-    //update new property
-    @PostMapping("/update/properties/{id}")
-    public ResponseEntity<?> updateProperty(@PathVariable Long id,@RequestBody propertyRequest property){
-         return propertyservice.updatePropertyService(id,property);
-    }
+
+
 }

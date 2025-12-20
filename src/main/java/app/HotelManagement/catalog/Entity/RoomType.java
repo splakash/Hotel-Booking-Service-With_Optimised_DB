@@ -17,7 +17,7 @@ import java.util.List;
         uniqueConstraints = {
                 @UniqueConstraint(name = "uk_room_type_property_code", columnNames = {"property_id", "code"})
         })
-public class roomType {
+public class RoomType {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,28 +26,33 @@ public class roomType {
     //Relationship
     @ManyToOne
     @JoinColumn(name = "propert_id")
-    private property property;
+    private Property property;
 
     @OneToMany(mappedBy = "roomtype")
-    private List<Room> rooms;
-
-    @OneToMany(mappedBy = "roomtype")
-    private List<inventory> inventories;
+    private List<Inventory> inventories;
 
     @OneToMany(mappedBy = "roomtype") //mapped by name should be as it is as it is in declared class
     private List<Reservation> reservations;
 
-    @Column(nullable = false, length = 50)
-    private String code;
+
 
     @Column(nullable = false, length = 100)
     private String name;
 
-    @Column(name = "occupancy_adults", nullable = false)
-    private Integer occupancyAdults;
-
-    @Column(name = "occupancy_children", nullable = false)
-    private Integer occupancyChildren;
+    @Column(name = "base_price", nullable = true)
+    private Double basePrice;
+//    @Column(name = "AirConditionar")
+//    private boolean airCondition;
+//
+//    @Column(name = "wifiService")
+//    private boolean wifi;
+@Column(name = "total_rooms",nullable = false)
+private Integer totalRooms;
+//    @Column(name = "occupancy_adults", nullable = false)
+//    private Integer occupancyAdults;
+//
+//    @Column(name = "occupancy_children", nullable = false)
+//    private Integer occupancyChildren;
 
     @Column(columnDefinition = "TEXT")
     private String description;

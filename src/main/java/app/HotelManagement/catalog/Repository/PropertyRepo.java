@@ -1,10 +1,10 @@
 package app.HotelManagement.catalog.Repository;
 
-import app.HotelManagement.catalog.Entity.property;
+import app.HotelManagement.catalog.Entity.Property;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface propertyRepo extends JpaRepository<property,Long> {
+public interface PropertyRepo extends JpaRepository<Property,Long> {
     boolean existsByName(String name);
 }

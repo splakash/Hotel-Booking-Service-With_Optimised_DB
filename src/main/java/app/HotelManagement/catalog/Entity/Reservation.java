@@ -39,26 +39,31 @@ public class Reservation {
     //Relationship property_id
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "property_id", nullable = false,foreignKey = @ForeignKey(name = "fk_reservation_property"))
-    private property property;
+    private Property property;
 
     //Relationship Room_type_id
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "room_type_id", nullable = false,foreignKey = @ForeignKey(name = "fk_reservation_room_type"))
-    private roomType roomtype;
+    private RoomType roomtype;
 
     @OneToMany(mappedBy = "reservation")
     private List<Payment> payments = new ArrayList<>();
 
     @Column(name = "check_in", nullable = false)
     private LocalDate checkIn;
+
     @Column(name = "check_out", nullable = false)
     private  LocalDate checkOut;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false,length = 30)
     private ReservationStatus status = ReservationStatus.PENDING_PAYMENT;
+
+
     @Column(name = "guest_adults")
     private  int guestAdult;
+
+
     @Column(name = "guest_children")
     private int guestChildren;
 

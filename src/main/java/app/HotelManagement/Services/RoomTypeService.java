@@ -1,10 +1,11 @@
 package app.HotelManagement.Services;
 
 import app.HotelManagement.catalog.DTO.RoomTypeRequest;
-import app.HotelManagement.catalog.Entity.property;
-import app.HotelManagement.catalog.Entity.roomType;
+import app.HotelManagement.catalog.DTO.RoomTypeResponse;
+import app.HotelManagement.catalog.Entity.Property;
+import app.HotelManagement.catalog.Entity.RoomType;
 import app.HotelManagement.catalog.Repository.RoomTypeRepo;
-import app.HotelManagement.catalog.Repository.propertyRepo;
+import app.HotelManagement.catalog.Repository.PropertyRepo;
 import jakarta.el.PropertyNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -13,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import java.beans.Transient;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,14 +24,14 @@ public class RoomTypeService {
     private RoomTypeRepo roomTypeRepo;
 
     @Autowired
-    private  propertyRepo propertyRepo;
+    private PropertyRepo propertyRepo;
 
 
 
     public ResponseEntity<?> addNewRoomTypeService(RoomTypeRequest roomTypeRequest) {
 
         Long propertyId = roomTypeRequest.getPropertyId();
-        property property = propertyRepo.findById(propertyId)
+        Property property = propertyRepo.findById(propertyId)
                 .orElseThrow(() -> new PropertyNotFoundException("Property does not exist for the given property id"));
 
         if(roomTypeRepo.existsByName(roomTypeRequest.getName()))
@@ -39,24 +39,25 @@ public class RoomTypeService {
             return ResponseEntity.status(409)
                 .body(java.util.Map.of("error", "Room Type with name already exists"));
         }
-        roomType roomType = new roomType();
+        RoomType roomType = new RoomType();
         roomType.setProperty(property);
         roomType.setName(roomTypeRequest.getName());
-        roomType.setCode(roomTypeRequest.getCode());
-        roomType.setOccupancyAdults(roomTypeRequest.getOccupancyAdults());
-        roomType.setOccupancyChildren(roomTypeRequest.getOccupancyChildren());
+//        roomType.setCode(roomTypeRequest.getCode());
+        roomType.setBasePrice(roomTypeRequest.getBasePrice());
+//        roomType.setOccupancyAdults(roomTypeRequest.getOccupancyAdults());
+//        roomType.setOccupancyChildren(roomTypeRequest.getOccupancyChildren());
         roomType.setDescription(roomTypeRequest.getDescription());
         roomTypeRepo.save(roomType);
         return  ResponseEntity.ok().build();
     }
 
     @Transactional(readOnly = true)
-    public Optional<roomType> findById(Long id) {
+    public Optional<RoomType> findById(Long id) {
         return roomTypeRepo.findById(id);
     }
 
     @Transactional(readOnly = true)
-    public List<roomType>findAll(){
+    public List<RoomType>findAll(){
         return roomTypeRepo.findAll();
     }
 
@@ -70,20 +71,24 @@ public class RoomTypeService {
     }
 
     public ResponseEntity<?> updateRoomTypeService(@PathVariable Long id , @RequestBody RoomTypeRequest reqToUpdate){
-        Optional<roomType> OptionalRoomType = roomTypeRepo.findById(id);
-        roomType updatedRoomType = new roomType();
+        Optional<RoomType> OptionalRoomType = roomTypeRepo.findById(id);
+        RoomType updatedRoomType = new RoomType();
         if(OptionalRoomType.isPresent()){
             updatedRoomType = OptionalRoomType.get();
             updatedRoomType.setName(reqToUpdate.getName());
-            updatedRoomType.setCode(reqToUpdate.getCode());
-            updatedRoomType.setOccupancyAdults(reqToUpdate.getOccupancyAdults());
-            updatedRoomType.setOccupancyChildren(reqToUpdate.getOccupancyChildren());
+//            updatedRoomType.setCode(reqToUpdate.getCode());
+//            updatedRoomType.setOccupancyAdults(reqToUpdate.getOccupancyAdults());
+//            updatedRoomType.setOccupancyChildren(reqToUpdate.getOccupancyChildren());
             updatedRoomType.setDescription(reqToUpdate.getDescription());
 
         }else{
             throw new PropertyNotFoundException("Room Type not found with id: " + id);
         }
-        roomType updated = roomTypeRepo.save(updatedRoomType);
+        RoomType updated = roomTypeRepo.save(updatedRoomType);
         return ResponseEntity.ok(updated);
+    }
+
+    public List<RoomTypeResponse> FetchRoomType(Long PropertyId) {
+        return null;
     }
 }

@@ -22,7 +22,7 @@ import java.time.LocalDateTime;
 
         }
 )
-public class inventory {
+public class Inventory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -32,53 +32,47 @@ public class inventory {
     @JoinColumn(name = "property_id", nullable = false,
         foreignKey = @ForeignKey(name = "fk_inventory_property")
     )
-    private property property;
+    private Property property;
 
     //Relationship Room_type_id
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "room_type_id", nullable = false,
             foreignKey = @ForeignKey(name = "fk_inventory_room_type")
     )
-    private roomType roomtype;
+    private RoomType roomtype;
 
 
 
     @Column(name = "date", nullable = false)
     private LocalDate date;
 
-    @Column(name = "total_rooms",nullable = false)
-    private Integer totalRooms;
+
 
     @Column(name = "reserved_rooms",nullable = false)
     private Integer reservedRooms;
-
-    @Column(name = "OOO_rooms",nullable = false)
-    private Integer OutOfOrderRooms;
 
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
 
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
+
     @PrePersist
     public void onCreate() {
         this.createdAt = LocalDateTime.now();
         this.updatedAt = this.createdAt;
         if (reservedRooms == null) reservedRooms = 0;
-        if (OutOfOrderRooms == null) OutOfOrderRooms = 0;
-    }
 
+    }
 
     @PreUpdate
     public void onUpdate() { this.updatedAt = LocalDateTime.now(); }
+
     @Transient
-    public int getAvialableRooms(){
-        int total = totalRooms == null ? 0:  totalRooms;
-        int reserved = reservedRooms == null ? 0 : reservedRooms;
-        int ooo = OutOfOrderRooms == null ? 0 : OutOfOrderRooms;
-        int availableRoom = total - reserved - ooo;
-
-        return Math.max(0,availableRoom);
+    public int getAvailableRooms() {
+        return Math.max(
+                0,
+                roomtype.getTotalRooms() - reservedRooms
+        );
     }
-
 }

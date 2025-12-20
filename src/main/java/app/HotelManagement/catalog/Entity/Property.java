@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -13,7 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @Table(name = "property")
-public class property {
+public class Property {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,16 +40,16 @@ public class property {
     private LocalDateTime updatedAt;
 
 
-
-    //Relationship rooms
     @OneToMany(mappedBy = "property")
-    private List<Room> rooms;
+    private List<Inventory> inventories;
 
     @OneToMany(mappedBy = "property")
-    private List<inventory> inventories;
+    private List<Reservation> reservations = new ArrayList<>();
 
-    @OneToMany(mappedBy = "property")
-    private List<Reservation> reservations;
+
+//    //inverse Side does not contain foreign key details
+//    @OneToMany(mappedBy = "property")
+//    private List<Room> rooms = new ArrayList<>();
 
     @PrePersist
     public void onCreate() {

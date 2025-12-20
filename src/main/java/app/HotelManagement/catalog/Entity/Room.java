@@ -27,24 +27,27 @@ public class Room {
     private Long id;
 
     //Relationship property_id
+    //Owning Side it contains foreign key
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "property_id", nullable = false)
-    private property property;
+    private Property property;
 
     //Relationship Room_type_id
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "room_type_id", nullable = false)
-    private roomType roomtype;
+    private RoomType roomtype;
 
     @OneToOne(mappedBy = "room")
     @JoinColumn(name="Reservation_Room_id")
     private ReservationRoom reservationRoom;
 
     @Column(nullable = false,length = 50)
-    private String RoomNumber;
+    private String roomNumber;
 
     @Column(length = 32)
-    private String floor;
+    private int floor;
+
+
 
 
     @Enumerated(EnumType.STRING)
