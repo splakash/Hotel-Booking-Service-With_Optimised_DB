@@ -17,10 +17,10 @@ public class AppUser {
     private Long id;
 
     @Column(nullable = false, length = 150)
-    private String email;
+    private String username;
 
-    @Column(name = "password_hash", nullable = false, length = 120)
-    private String passwordHash;
+    @Column(name = "password", nullable = false, length = 120)
+    private String password;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)

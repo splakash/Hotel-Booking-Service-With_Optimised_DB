@@ -48,11 +48,11 @@ public class RoomType {
 //    private boolean wifi;
 @Column(name = "total_rooms",nullable = false)
 private Integer totalRooms;
-//    @Column(name = "occupancy_adults", nullable = false)
-//    private Integer occupancyAdults;
-//
-//    @Column(name = "occupancy_children", nullable = false)
-//    private Integer occupancyChildren;
+    @Column(name = "occupancy_adults", nullable = false)
+    private Integer occupancyAdults = 2;
+
+    @Column(name = "occupancy_children", nullable = false)
+    private Integer occupancyChildren = 2;
 
     @Column(columnDefinition = "TEXT")
     private String description;

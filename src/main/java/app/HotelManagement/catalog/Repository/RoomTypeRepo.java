@@ -10,8 +10,11 @@ import java.util.List;
 
 @Repository
 public interface RoomTypeRepo extends JpaRepository<RoomType,Long> {
-    boolean existsByName(String name);
+    boolean existsByNameAndPropertyId(String name,long property_id);
 
     @Query("SELECT rt FROM RoomType rt WHERE rt.property.id = :propertyId")
     List<RoomType> findByProperty(@Param("propertyId") Long propertyId);
+
+    @Query("SELECT MIN(rt.basePrice) FROM RoomType rt WHERE rt.property.id = :propertyId")
+    Double findLowestPriceByPropertyId(Long propertyId);
 }

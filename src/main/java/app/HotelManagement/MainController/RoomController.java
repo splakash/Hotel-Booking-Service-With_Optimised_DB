@@ -20,8 +20,8 @@ public class RoomController {
 
     //create new Room
     @PostMapping("/create/room")
-    public ResponseEntity<?> AddRoom(@RequestBody RoomRequest req){
-        return roomService.AddRoomService(req);
+    public ResponseEntity<?> AddRoom(@RequestBody RoomRequest request){
+        return roomService.AddRoomService(request);
     }
 
     //get one room

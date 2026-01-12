@@ -25,7 +25,8 @@ public class AvailabilityService {
     @Transactional(readOnly = true)
     public List<Property> findAvailableProperties(
             LocalDate checkIn,
-            LocalDate checkOut
+            LocalDate checkOut,
+            String location
     ) {
 
         List<RoomType> roomTypes = roomTypeRepo.findAll();
@@ -63,8 +64,17 @@ public class AvailabilityService {
                 minAvailable = Math.min(minAvailable, available);
             }
 
-            if (minAvailable > 0) {
-                availableProperties.add(roomType.getProperty());
+            if(location != null ){
+                if (minAvailable > 0 ) {
+                    if(roomType.getProperty().getState().equals(location)  || roomType.getProperty().getCity().equals(location) || roomType.getProperty().getCountry().equals(location) ) {
+                        availableProperties.add(roomType.getProperty());
+                    }
+                }
+            }
+            else{
+                if (minAvailable > 0 ) {
+                        availableProperties.add(roomType.getProperty());
+                }
             }
         }
 
