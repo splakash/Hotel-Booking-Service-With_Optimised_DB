@@ -3,7 +3,9 @@ package app.HotelManagement.Services;
 import app.HotelManagement.catalog.DTO.PropertyResponse;
 import app.HotelManagement.catalog.DTO.propertyRequest;
 import app.HotelManagement.catalog.Entity.Property;
+import app.HotelManagement.catalog.Entity.RoomType;
 import app.HotelManagement.catalog.Repository.PropertyRepo;
+import app.HotelManagement.catalog.Repository.RoomTypeRepo;
 import jakarta.el.PropertyNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -19,19 +21,24 @@ public class PropertyService {
     @Autowired
     private PropertyRepo propertyRepo;
 
+    @Autowired
+    private RoomTypeRepo roomTypeRepo;
+
+
 
     public List<PropertyResponse> PropertyList() {
         List<Property> properties = propertyRepo.findAll();
         return properties.stream().map(p -> {
-//            Double lowestPrice = ratePlanRepository.findLowestPriceByProperty(p.getId()); // for now i am not calculating prices
+
+
+            Double lowestPrice = roomTypeRepo.findLowestPriceByPropertyId(p.getId());
 
             PropertyResponse dto = new PropertyResponse();
             dto.setId(p.getId());
             dto.setName(p.getName());
             dto.setAddress(p.getAddress());
-            dto.setLowestPrice(299.00);
             dto.setRatings(4.0);
-            //dto.setLowestPrice(lowestPrice != null ? lowestPrice : 0.0);
+            dto.setLowestPrice(lowestPrice != null ? lowestPrice : 0.0);
 
             return dto;
         }).toList();

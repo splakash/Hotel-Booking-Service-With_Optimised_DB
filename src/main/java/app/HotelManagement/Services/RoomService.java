@@ -31,7 +31,7 @@ public class RoomService {
 
 
     public ResponseEntity<?> AddRoomService(RoomRequest req) {
-
+        System.out.println("Incoming propertyId: " + req.getPropertyId());
         Property property = propertyRepo.findById(req.getPropertyId())
                 .orElseThrow(() -> new PropertyNotFoundException("Property does not exist for the given property id"+ req.getPropertyId()));
 

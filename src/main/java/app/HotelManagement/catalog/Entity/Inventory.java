@@ -26,37 +26,26 @@ public class Inventory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     //Relationship property_id
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "property_id", nullable = false,
         foreignKey = @ForeignKey(name = "fk_inventory_property")
     )
     private Property property;
-
     //Relationship Room_type_id
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "room_type_id", nullable = false,
             foreignKey = @ForeignKey(name = "fk_inventory_room_type")
     )
     private RoomType roomtype;
-
-
-
     @Column(name = "date", nullable = false)
     private LocalDate date;
-
-
-
     @Column(name = "reserved_rooms",nullable = false)
     private Integer reservedRooms;
-
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
-
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
-
     @PrePersist
     public void onCreate() {
         this.createdAt = LocalDateTime.now();
@@ -64,10 +53,8 @@ public class Inventory {
         if (reservedRooms == null) reservedRooms = 0;
 
     }
-
     @PreUpdate
     public void onUpdate() { this.updatedAt = LocalDateTime.now(); }
-
     @Transient
     public int getAvailableRooms() {
         return Math.max(

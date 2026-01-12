@@ -22,10 +22,23 @@ public class Property {
 
     @Column(nullable = false)
     private String name;
+
     @Column(nullable = false)
     private String timezone;
 
+    @Column(nullable = false)
+    private String city;
+
+    @Column(nullable = false)
+    private String state;
+
+    private String country;
+
+    @Transient
     private String address;
+    public String getAddress(){
+        return this.city+", "+this.state+", "+this.country;
+    }
 
     @Column(name ="contact_email"  )
     private String contactEmail;

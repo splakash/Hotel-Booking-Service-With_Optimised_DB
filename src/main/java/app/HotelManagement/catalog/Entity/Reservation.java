@@ -46,6 +46,7 @@ public class Reservation {
     @JoinColumn(name = "room_type_id", nullable = false,foreignKey = @ForeignKey(name = "fk_reservation_room_type"))
     private RoomType roomtype;
 
+    // once payment system will be integrated this will be activated
     @OneToMany(mappedBy = "reservation")
     private List<Payment> payments = new ArrayList<>();
 
@@ -54,6 +55,8 @@ public class Reservation {
 
     @Column(name = "check_out", nullable = false)
     private  LocalDate checkOut;
+
+
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false,length = 30)

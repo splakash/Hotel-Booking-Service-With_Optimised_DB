@@ -34,7 +34,7 @@ public class RoomTypeService {
         Property property = propertyRepo.findById(propertyId)
                 .orElseThrow(() -> new PropertyNotFoundException("Property does not exist for the given property id"));
 
-        if(roomTypeRepo.existsByName(roomTypeRequest.getName()))
+        if(roomTypeRepo.existsByNameAndPropertyId(roomTypeRequest.getName(),roomTypeRequest.getPropertyId()))
         {
             return ResponseEntity.status(409)
                 .body(java.util.Map.of("error", "Room Type with name already exists"));
@@ -42,7 +42,6 @@ public class RoomTypeService {
         RoomType roomType = new RoomType();
         roomType.setProperty(property);
         roomType.setName(roomTypeRequest.getName());
-//        roomType.setCode(roomTypeRequest.getCode());
         roomType.setBasePrice(roomTypeRequest.getBasePrice());
 //        roomType.setOccupancyAdults(roomTypeRequest.getOccupancyAdults());
 //        roomType.setOccupancyChildren(roomTypeRequest.getOccupancyChildren());
