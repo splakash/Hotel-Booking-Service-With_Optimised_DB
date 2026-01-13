@@ -1,0 +1,22 @@
+services:
+  app:
+    build: .
+    ports:
+      - "8081:8081"
+    networks:
+      - my-network
+
+  Postgres:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: akash
+      POSTGRES_PASSWORD: 1234
+      POSTGRES_DB: Hotel_Booking
+    ports:
+      - "5432:5432"
+    networks:
+      - my-network
+
+networks:
+  my-network:
+    driver: bridge
