@@ -32,6 +32,8 @@ public class PropertyDetailsService {
             dto.setId(rt.getId());
             dto.setName(rt.getName());
             dto.setDescription(rt.getDescription());
+            dto.setBasePrice(rt.getBasePrice());
+            dto.setTotalRoom(rt.getTotalRooms());
 //            dto.setOccupancyAdults(rt.getOccupancyAdults());
 //            dto.setOccupancyChildren(rt.getOccupancyChildren());
             return dto;
