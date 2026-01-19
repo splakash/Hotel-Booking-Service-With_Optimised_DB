@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/v1/admin")
-@CrossOrigin(origins = "http://localhost:5173")
 public class PropertyControllerAdmin {
 
     @Autowired

@@ -15,7 +15,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/v1")
-@CrossOrigin(origins = "http://localhost:3000")
 public class SearchAndSort {
 
     @Autowired
