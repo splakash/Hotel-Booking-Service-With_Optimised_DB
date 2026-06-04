@@ -1,6 +1,7 @@
 package app.HotelManagement.MainController;
 
 import app.HotelManagement.Services.AvailabilityService;
+import app.HotelManagement.catalog.DTO.PropertyDetailsResponse;
 import app.HotelManagement.catalog.DTO.SearchRequest;
 import app.HotelManagement.catalog.Entity.Property;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +23,7 @@ public class SearchAndSort {
 
     @PostMapping("/search-details")
     public ResponseEntity<?> SearchByDate(@RequestBody SearchRequest req){
-        List<Property> properties = availabilityService.findAvailableProperties(req.getCheckIn(),req.getCheckOut(),req.getLocation());
+        List<PropertyDetailsResponse> properties = availabilityService.findAvailableProperties(req.getCheckIn(),req.getCheckOut(),req.getLocation());
         return new ResponseEntity<>(properties, HttpStatus.OK);
     }
 }

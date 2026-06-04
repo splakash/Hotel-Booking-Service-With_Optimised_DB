@@ -38,7 +38,7 @@ public class PropertyDetailsService {
 //            dto.setOccupancyChildren(rt.getOccupancyChildren());
             return dto;
         }).toList();
-
+        Double lowestPrice = roomTypeRepo.findLowestPriceByPropertyId(propertyId);
         PropertyDetailsResponse propertyDetailsResponse = new PropertyDetailsResponse();
         propertyDetailsResponse.setPropertyName(property.getName());
         propertyDetailsResponse.setPropertyId(property.getId());
@@ -46,7 +46,7 @@ public class PropertyDetailsService {
         propertyDetailsResponse.setRatings(5.00);  // need to change the Ratings
         propertyDetailsResponse.setContactPhone(property.getContactPhone());
         propertyDetailsResponse.setContactEmail(property.getContactEmail());
-        propertyDetailsResponse.setLowestPrice(200.00);
+        propertyDetailsResponse.setLowestPrice(lowestPrice);
         propertyDetailsResponse.setRoomTypes(roomTypes);
         return propertyDetailsResponse;
 

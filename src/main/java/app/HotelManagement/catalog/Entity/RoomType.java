@@ -1,6 +1,7 @@
 package app.HotelManagement.catalog.Entity;
 
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -32,6 +33,7 @@ public class RoomType {
     private List<Inventory> inventories;
 
     @OneToMany(mappedBy = "roomtype") //mapped by name should be as it is as it is in declared class
+    @JsonManagedReference
     private List<Reservation> reservations;
 
 
@@ -46,8 +48,8 @@ public class RoomType {
 //
 //    @Column(name = "wifiService")
 //    private boolean wifi;
-@Column(name = "total_rooms",nullable = false)
-private Integer totalRooms;
+    @Column(name = "total_rooms",nullable = false)
+    private Integer totalRooms;
     @Column(name = "occupancy_adults", nullable = false)
     private Integer occupancyAdults = 2;
 

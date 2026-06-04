@@ -1,7 +1,8 @@
-package app.HotelManagement.UserManagement;
+package app.HotelManagement.Services;
 
 
 import app.HotelManagement.catalog.DTO.userDetailsDTO;
+import app.HotelManagement.catalog.DTO.userNameDTO;
 import app.HotelManagement.catalog.Entity.AppUser;
 import app.HotelManagement.catalog.Repository.AppUserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,5 +26,11 @@ public class AuthService {
         appUser.setRole(user.getRole());
         UserRepo.save(appUser);
         return user;
+    }
+
+    public void forgotPasswordService(userNameDTO userNameDTO){
+        if(!UserRepo.existsByUsername(userNameDTO.getUserName()))throw new RuntimeException("Incorrect UserName :This user does not exists");
+
+
     }
 }

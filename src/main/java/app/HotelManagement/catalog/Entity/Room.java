@@ -48,8 +48,6 @@ public class Room {
     private int floor;
 
 
-
-
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 16)
     private RoomStatus status = RoomStatus.CLEAN;

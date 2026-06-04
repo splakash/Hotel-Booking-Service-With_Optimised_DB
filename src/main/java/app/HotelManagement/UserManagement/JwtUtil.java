@@ -2,6 +2,7 @@ package app.HotelManagement.UserManagement;
 
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
@@ -41,32 +42,60 @@ public class JwtUtil {
                 .compact();
     }
 
-    public String extractUsername(String jwtToken) {
-        try {
-            Claims claims = Jwts.parserBuilder()
-                    .setSigningKey(getSigningKey())
-                    .build()
-                    .parseClaimsJws(jwtToken)
-                    .getBody();
+//    public String extractUsername(String jwtToken) {
+//        try {
+//            Claims claims = Jwts.parserBuilder()
+//                    .setSigningKey(getSigningKey())
+//                    .build()
+//                    .parseClaimsJws(jwtToken)
+//                    .getBody();
+//
+//            return claims.getSubject();
+//
+//        } catch (SignatureException e) {
+//            throw new RuntimeException("Invalid JWT signature");
+//        }
+//    }
 
-            return claims.getSubject();
+//    public boolean isTokenValid(String jwtToken, UserDetails userDetails){
+//        final String username = extractUsername(jwtToken);
+//        return (username.equals(userDetails.getUsername()) && !isTokenExpired(jwtToken));
+//    }
 
-        } catch (SignatureException e) {
-            throw new RuntimeException("Invalid JWT signature");
+//    public boolean isTokenExpired(String token) {
+//        Claims claims = Jwts.parserBuilder()
+//                .setSigningKey(getSigningKey())   // consistent with extractUsername
+//                .build()
+//                .parseClaimsJws(token)
+//                .getBody();
+//        return claims.getExpiration().before(new Date());
+//    }
+    // CLEANER VERSION — single parse, no duplication
+        private Claims extractAllClaims(String token) {
+            return Jwts.parserBuilder()
+            .setSigningKey(getSigningKey())
+            .build()
+            .parseClaimsJws(token)
+            .getBody();
         }
-    }
 
-    public boolean isTokenValid(String jwtToken, UserDetails userDetails){
-        final String username = extractUsername(jwtToken);
-        return (username.equals(userDetails.getUsername()) && !isTokenExpired(jwtToken));
+    public String extractUsername(String token) {
+        return extractAllClaims(token).getSubject();
     }
 
     public boolean isTokenExpired(String token) {
-        Claims claims = Jwts.parser()
-                .setSigningKey(secret)
-                .parseClaimsJws(token)
-                .getBody();
-        return claims.getExpiration().before(new Date());
+        return extractAllClaims(token).getExpiration().before(new Date());
     }
 
+    public boolean isTokenValid(String token, UserDetails userDetails) {
+        try {
+            Claims claims = extractAllClaims(token);   // one parse
+            String username = claims.getSubject();
+            Date expiry = claims.getExpiration();
+            return username.equals(userDetails.getUsername())
+                    && expiry.after(new Date());
+        } catch (JwtException e) {
+            return false;   // expired, tampered, wrong signature — all invalid
+        }
+    }
 }

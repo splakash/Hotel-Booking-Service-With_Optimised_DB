@@ -1,5 +1,6 @@
 package app.HotelManagement.Services;
 
+import app.HotelManagement.catalog.DTO.PropertyDetailsResponse;
 import app.HotelManagement.catalog.Entity.Inventory;
 import app.HotelManagement.catalog.Entity.Property;
 import app.HotelManagement.catalog.Entity.RoomType;
@@ -23,14 +24,14 @@ public class AvailabilityService {
     private final InventoryRepo inventoryRepo;
 
     @Transactional(readOnly = true)
-    public List<Property> findAvailableProperties(
+    public List<PropertyDetailsResponse> findAvailableProperties(
             LocalDate checkIn,
             LocalDate checkOut,
             String location
     ) {
 
         List<RoomType> roomTypes = roomTypeRepo.findAll();
-        Set<Property> availableProperties = new HashSet<>();
+        Set<PropertyDetailsResponse> availableProperties = new HashSet<>();
 
         for (RoomType roomType : roomTypes) {
 
@@ -63,17 +64,22 @@ public class AvailabilityService {
 
                 minAvailable = Math.min(minAvailable, available);
             }
-
+            Property property = roomType.getProperty();
             if(location != null ){
                 if (minAvailable > 0 ) {
-                    if(roomType.getProperty().getState().equals(location)  || roomType.getProperty().getCity().equals(location) || roomType.getProperty().getCountry().equals(location) ) {
-                        availableProperties.add(roomType.getProperty());
+                    if(property.getState().equals(location)  || property.getCity().equals(location) || property.getCountry().equals(location) ) {
+
+                        Double lowestPrice = roomTypeRepo.findLowestPriceByPropertyId(property.getId());
+                        availableProperties.add(PropertyMapper.mapToPropertyDetailsResponse(property,lowestPrice));
+
+
                     }
                 }
             }
             else{
                 if (minAvailable > 0 ) {
-                        availableProperties.add(roomType.getProperty());
+                        Double lowestPrice = roomTypeRepo.findLowestPriceByPropertyId(property.getId());
+                       availableProperties.add(PropertyMapper.mapToPropertyDetailsResponse(property,lowestPrice));
                 }
             }
         }

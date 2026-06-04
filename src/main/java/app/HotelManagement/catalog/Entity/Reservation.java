@@ -1,6 +1,7 @@
 package app.HotelManagement.catalog.Entity;
 
 import app.HotelManagement.catalog.Entity.Enum.ReservationStatus;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -39,16 +40,21 @@ public class Reservation {
     //Relationship property_id
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "property_id", nullable = false,foreignKey = @ForeignKey(name = "fk_reservation_property"))
+    @JsonBackReference
     private Property property;
 
     //Relationship Room_type_id
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "room_type_id", nullable = false,foreignKey = @ForeignKey(name = "fk_reservation_room_type"))
+    @JsonBackReference
     private RoomType roomtype;
 
     // once payment system will be integrated this will be activated
     @OneToMany(mappedBy = "reservation")
     private List<Payment> payments = new ArrayList<>();
+
+    @Column(name = "contact_email", length = 150)
+    private String contactEmail;
 
     @Column(name = "check_in", nullable = false)
     private LocalDate checkIn;
@@ -76,8 +82,7 @@ public class Reservation {
     @Column(name = "contact_name", length = 150)
     private String contactName;
 
-    @Column(name = "contact_email", length = 150)
-    private String contactEmail;
+
 
     @Column(name = "contact_phone", length = 30)
     private String contactPhone;

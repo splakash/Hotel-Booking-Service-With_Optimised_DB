@@ -42,6 +42,8 @@ public class Inventory {
     private LocalDate date;
     @Column(name = "reserved_rooms",nullable = false)
     private Integer reservedRooms;
+    @Column(name = "held_rooms", nullable = false)
+    private Integer heldRooms;
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
     @Column(name = "updated_at")

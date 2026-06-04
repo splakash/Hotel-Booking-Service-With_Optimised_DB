@@ -1,6 +1,7 @@
 package app.HotelManagement.catalog.Entity;
 
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -57,6 +58,7 @@ public class Property {
     private List<Inventory> inventories;
 
     @OneToMany(mappedBy = "property")
+    @JsonManagedReference
     private List<Reservation> reservations = new ArrayList<>();
 
 
