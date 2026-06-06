@@ -2,8 +2,10 @@ package app.HotelManagement.Services;
 
 import app.HotelManagement.catalog.DTO.RoomTypeRequest;
 import app.HotelManagement.catalog.DTO.RoomTypeResponse;
+import app.HotelManagement.catalog.Entity.Inventory;
 import app.HotelManagement.catalog.Entity.Property;
 import app.HotelManagement.catalog.Entity.RoomType;
+import app.HotelManagement.catalog.Repository.InventoryRepo;
 import app.HotelManagement.catalog.Repository.RoomTypeRepo;
 import app.HotelManagement.catalog.Repository.PropertyRepo;
 import jakarta.el.PropertyNotFoundException;
@@ -14,17 +16,26 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class RoomTypeService {
 
-    @Autowired
-    private RoomTypeRepo roomTypeRepo;
 
-    @Autowired
-    private PropertyRepo propertyRepo;
+    private final RoomTypeRepo roomTypeRepo;
+    private final PropertyRepo propertyRepo;
+    private  final InventoryRepo inventoryRepo;
+
+    public RoomTypeService(RoomTypeRepo roomTypeRepo, PropertyRepo propertyRepo, InventoryRepo inventoryRepo){
+        this.roomTypeRepo = roomTypeRepo;
+        this.propertyRepo = propertyRepo;
+        this.inventoryRepo = inventoryRepo;
+    }
+
+
 
 
 
@@ -43,10 +54,13 @@ public class RoomTypeService {
         roomType.setProperty(property);
         roomType.setName(roomTypeRequest.getName());
         roomType.setBasePrice(roomTypeRequest.getBasePrice());
+        roomType.setTotalRooms(roomTypeRequest.getTotalRooms());
 //        roomType.setOccupancyAdults(roomTypeRequest.getOccupancyAdults());
 //        roomType.setOccupancyChildren(roomTypeRequest.getOccupancyChildren());
         roomType.setDescription(roomTypeRequest.getDescription());
+
         roomTypeRepo.save(roomType);
+        generateInventory(roomType);
         return  ResponseEntity.ok().build();
     }
 
@@ -85,6 +99,32 @@ public class RoomTypeService {
         }
         RoomType updated = roomTypeRepo.save(updatedRoomType);
         return ResponseEntity.ok(updated);
+    }
+
+    @Transactional
+    public void generateInventory(RoomType roomType) {
+
+        LocalDate start = LocalDate.now();
+        LocalDate end = start.plusDays(365);
+
+        List<Inventory> inventories = new ArrayList<>();
+
+        while (!start.isAfter(end)) {
+
+            inventories.add(
+                    Inventory.builder()
+                            .property(roomType.getProperty())
+                            .roomtype(roomType)
+                            .date(start)
+                            .reservedRooms(0)
+                            .heldRooms(0)
+                            .build()
+            );
+
+            start = start.plusDays(1);
+        }
+
+        inventoryRepo.saveAll(inventories);
     }
 
     public List<RoomTypeResponse> FetchRoomType(Long PropertyId) {

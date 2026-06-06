@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @Table(name = "inventory",
         uniqueConstraints = {
         @UniqueConstraint(name = "uk_inventory_property_roomType_date",columnNames = {
-                "property_id, room_type_id,date"
+                "property_id", "room_type_id","date"
         })
         },
         indexes = {
@@ -38,30 +38,39 @@ public class Inventory {
             foreignKey = @ForeignKey(name = "fk_inventory_room_type")
     )
     private RoomType roomtype;
+
     @Column(name = "date", nullable = false)
     private LocalDate date;
+
     @Column(name = "reserved_rooms",nullable = false)
     private Integer reservedRooms;
+
     @Column(name = "held_rooms", nullable = false)
     private Integer heldRooms;
+
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
+
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
+
     @PrePersist
     public void onCreate() {
         this.createdAt = LocalDateTime.now();
         this.updatedAt = this.createdAt;
         if (reservedRooms == null) reservedRooms = 0;
-
+        if (heldRooms == null) heldRooms = 0;
     }
-    @PreUpdate
-    public void onUpdate() { this.updatedAt = LocalDateTime.now(); }
+
     @Transient
     public int getAvailableRooms() {
         return Math.max(
                 0,
-                roomtype.getTotalRooms() - reservedRooms
+                roomtype.getTotalRooms() - reservedRooms - heldRooms
         );
     }
+    @PreUpdate
+    public void onUpdate() { this.updatedAt = LocalDateTime.now(); }
+
+
 }

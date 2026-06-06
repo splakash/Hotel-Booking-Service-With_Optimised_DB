@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Lock;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -29,10 +30,11 @@ public interface InventoryRepo extends JpaRepository<Inventory,Long> {
     );
 
     @Lock(LockModeType.PESSIMISTIC_WRITE)
-    @Query("SELECT i FROM Inventory i WHERE i.property = :property AND i.roomtype = :roomType AND i.date = :date")
+    @Transactional
+    @Query("SELECT i FROM Inventory i JOIN FETCH i.roomtype JOIN FETCH i.property WHERE i.property = :property AND i.roomtype = :roomType AND i.date = :finalDate")
     Optional<Inventory> findWithLock(
             @Param("property") Property property,
             @Param("roomType") RoomType roomType,
-            @Param("date") LocalDate date
+            @Param("finalDate") LocalDate finalDate
     );
 }

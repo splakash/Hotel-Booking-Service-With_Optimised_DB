@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -25,11 +26,8 @@ import java.util.UUID;
 public class ReservationService {
 
     private final PropertyRepo propertyRepo;
-
     private final RoomTypeRepo roomTypeRepo;
-
     private final ReservationRepo reservationRepo;
-
     private final InventoryRepo inventoryRepo;
 
     public ReservationService(PropertyRepo propertyRepo, RoomTypeRepo roomTypeRepo, ReservationRepo reservationRepo, InventoryRepo inventoryRepo) {
@@ -39,31 +37,58 @@ public class ReservationService {
         this.inventoryRepo = inventoryRepo;
     }
 
-    public Reservation confirmReservationService(ReservationRequest request){
 
-        Property property = (propertyRepo.findById(request.getPropertyId()).orElseThrow());
-        RoomType roomType = (roomTypeRepo.findById(request.getRoomTypeId()).orElseThrow());
 
+    @Transactional
+    public Reservation initiateReservationService(ReservationRequest request){
+
+        Property property = propertyRepo.findById(request.getPropertyId())
+                .orElseThrow(() -> new RuntimeException("Property not found"));
+        RoomType roomType = roomTypeRepo.findById(request.getRoomTypeId())
+                .orElseThrow(() -> new RuntimeException("RoomType not found"));
+
+        // Step 1: Check availability and hold inventory for all dates
         LocalDate date = request.getCheckIn();
-        // logic to check the room availability at booking time
+        List<Inventory> toUpdate = new ArrayList<>();
 
-        Reservation newReservation = new Reservation();
-        newReservation.setCheckIn(request.getCheckIn());
-        newReservation.setCheckOut(request.getCheckOut());
-        newReservation.setContactPhone(request.getContactPhone());
-        newReservation.setContactName(request.getContactName());
-        newReservation.setContactEmail(request.getContactEmail());
-        newReservation.setGuestAdult(request.getGuestAdult());
-        newReservation.setGuestChildren(request.getGuestChildren());
-        newReservation.setStatus(ReservationStatus.PENDING_PAYMENT);
-        newReservation.setProperty(property);
-        newReservation.setRoomtype(roomType);
-        newReservation.setTotalAmount(request.getTotalAmount());
-        newReservation.setCode(UUID.randomUUID().toString());
+        while (date.isBefore(request.getCheckOut())) {
 
+            LocalDate finalDate = date;
+            Inventory inventory = inventoryRepo
+                    .findWithLock(property, roomType, finalDate)
+                    .orElseThrow(() -> new RuntimeException("Inventory not found for date: " + finalDate));
 
-        return reservationRepo.save(newReservation);
+            // Uses your @Transient method which now accounts for heldRooms too
+            if (inventory.getAvailableRooms() <= 0) {
+                throw new RuntimeException("Room not available for date: " + date);
+            }
 
+            inventory.setHeldRooms(inventory.getHeldRooms() + 1);
+            toUpdate.add(inventory);
+
+            date = date.plusDays(1);
+        }
+
+        // Step 2: Save all inventory updates at once
+        inventoryRepo.saveAll(toUpdate);
+
+        // Step 3: Save reservation
+        Reservation reservation = new Reservation();
+        reservation.setCheckIn(request.getCheckIn());
+        reservation.setCheckOut(request.getCheckOut());
+        reservation.setContactPhone(request.getContactPhone());
+        reservation.setContactName(request.getContactName());
+        reservation.setContactEmail(request.getContactEmail());
+        reservation.setGuestAdult(request.getGuestAdult());
+        reservation.setGuestChildren(request.getGuestChildren());
+        reservation.setStatus(ReservationStatus.PENDING_PAYMENT);
+        reservation.setProperty(property);
+        reservation.setRoomtype(roomType);
+        reservation.setTotalAmount(request.getTotalAmount());
+        reservation.setCode(UUID.randomUUID().toString());
+        reservation.setCreatedAt(LocalDateTime.now());
+
+        return reservationRepo.save(reservation);
     }
 
     public ReservationDetailsResponse getBookingDetailsService(String reservationId) {
@@ -93,7 +118,15 @@ public class ReservationService {
             throw new RuntimeException("Invalid state");
         }
 
+
+        //validation: if reservation.createdAt has over 5 min then it should call failed reservation
+//        if (reservation.getCreatedAt().isBefore(LocalDateTime.now().minusMinutes(5))) {
+//            reservation.setStatus(ReservationStatus.EXPIRED);
+//            reservationRepo.save(reservation);
+//            throw new RuntimeException("Reservation expired");
+//        }
         LocalDate date = reservation.getCheckIn();
+
 
         while (date.isBefore(reservation.getCheckOut())) {
 
@@ -143,14 +176,16 @@ public class ReservationService {
     }
 
 
-
+    @Scheduled(fixedRate = 120000) // every  2 min
+    @Transactional
     public void expireReservations() {
 
         List<Reservation> pendingReservations =
                 reservationRepo.findByStatus(ReservationStatus.PENDING_PAYMENT);
-        System.out.println("Scheduled triggers");
+        System.out.println("zscheduler hit");
         for (Reservation res : pendingReservations) {
-            if (res.getCreatedAt().isBefore(LocalDateTime.now().minusMinutes(10))) {
+
+            if (res.getCreatedAt().isBefore(LocalDateTime.now().minusMinutes(5))) {
                 releaseReservation(res.getId());
             }
         }

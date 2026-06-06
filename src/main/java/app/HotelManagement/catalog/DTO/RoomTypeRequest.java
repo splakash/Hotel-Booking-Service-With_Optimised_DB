@@ -18,7 +18,7 @@ public class RoomTypeRequest {
     @Size(max = 50)
     private String code;
 
-    @NotBlank(message = "total number of room is required")
+    @NotNull(message = "total number of room is required")
     private Integer totalRooms;
     @NotBlank(message = "Name is required")
     @Size(max = 100)

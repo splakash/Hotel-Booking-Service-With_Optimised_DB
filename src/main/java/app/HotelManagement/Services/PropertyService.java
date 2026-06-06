@@ -2,6 +2,7 @@ package app.HotelManagement.Services;
 
 import app.HotelManagement.catalog.DTO.PropertyResponse;
 import app.HotelManagement.catalog.DTO.propertyRequest;
+import app.HotelManagement.catalog.Entity.Inventory;
 import app.HotelManagement.catalog.Entity.Property;
 import app.HotelManagement.catalog.Entity.RoomType;
 import app.HotelManagement.catalog.Repository.PropertyRepo;
@@ -12,6 +13,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -105,6 +108,8 @@ public class PropertyService {
     public List<Property> findAll() {
         return propertyRepo.findAll();
     }
+
+
 
 
 

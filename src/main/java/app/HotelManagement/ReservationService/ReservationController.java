@@ -17,6 +17,8 @@ import java.util.List;
 @RequestMapping("/v1/res")
 public class ReservationController {
 
+
+
     @Autowired
     public ReservationService reservationService;
 
@@ -25,7 +27,7 @@ public class ReservationController {
     //2. save bookings who has filled the details payment pending
     @PostMapping("/reserve/booking")
     public ResponseEntity<?> booking(@RequestBody @Valid ReservationRequest reservationRequest){
-        Reservation reservation = reservationService.confirmReservationService(reservationRequest);
+        Reservation reservation = reservationService.initiateReservationService(reservationRequest);
         return ResponseEntity.ok(reservation.getCode());
     }
 
@@ -34,22 +36,19 @@ public class ReservationController {
         return reservationService.getBookingDetailsService(id);
     }
 
-    @PostMapping("/payments/success/{id}")
+    @GetMapping("/payments/success/{id}")
     public ResponseEntity<?> success(@PathVariable Long id) {
         reservationService.confirmReservation(id);
         return ResponseEntity.ok("Payment successful");
     }
 
 //      once the payment method will be integrated then it will be activated
-    @PostMapping("/payments/failure/{id}")
+    @GetMapping("/payments/failure/{id}")
     public ResponseEntity<?> failure(@PathVariable Long id) {
         reservationService.releaseReservation(id);
         return ResponseEntity.ok("Payment failed");
     }
-    // 3. retrieve booking information based on booking id;
 
-
-    //4. update booking details based on booking id
     @GetMapping("/my-bookings")
     public ResponseEntity<?> fetchBookingByCustomer(Authentication authentication){
         System.out.println(authentication);
@@ -60,4 +59,8 @@ public class ReservationController {
         return ResponseEntity.ok(a1);
     }
 
+//    @GetMapping("/")
+//    public void Dummy(){
+//        reservationService.dummyService();
+//    }
 }
