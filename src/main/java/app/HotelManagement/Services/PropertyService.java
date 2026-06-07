@@ -1,5 +1,6 @@
 package app.HotelManagement.Services;
 
+import app.HotelManagement.ExceptionHandler.RoomTypeNotFoundException;
 import app.HotelManagement.catalog.DTO.PropertyResponse;
 import app.HotelManagement.catalog.DTO.propertyRequest;
 import app.HotelManagement.catalog.Entity.Inventory;
@@ -8,6 +9,7 @@ import app.HotelManagement.catalog.Entity.RoomType;
 import app.HotelManagement.catalog.Repository.PropertyRepo;
 import app.HotelManagement.catalog.Repository.RoomTypeRepo;
 import jakarta.el.PropertyNotFoundException;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -110,7 +112,13 @@ public class PropertyService {
     }
 
 
+    public Property getById(
+            @NotNull(message = "Room Type ID is required")
+            Long propertyId) {
 
-
-
+        return propertyRepo.findById(propertyId)
+                .orElseThrow(
+                        PropertyNotFoundException::new
+                );
+    }
 }

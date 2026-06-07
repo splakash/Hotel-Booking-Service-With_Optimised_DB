@@ -1,7 +1,8 @@
-package app.HotelManagement.ReservationService;
+package app.HotelManagement.ReservationManager.Controller;
 
 
 
+import app.HotelManagement.ReservationManager.ReservationService.ReservationService;
 import app.HotelManagement.catalog.DTO.ReservationRequest;
 import app.HotelManagement.catalog.DTO.ReservationDetailsResponse;
 import app.HotelManagement.catalog.Entity.Reservation;
@@ -24,7 +25,7 @@ public class ReservationController {
 
     //1. save successfully reserved bookings (payment done)
 
-    //2. save bookings who has filled the details payment pending
+    //2. save bookings who filled the details payment pending
     @PostMapping("/reserve/booking")
     public ResponseEntity<?> booking(@RequestBody @Valid ReservationRequest reservationRequest){
         Reservation reservation = reservationService.initiateReservationService(reservationRequest);
@@ -36,31 +37,26 @@ public class ReservationController {
         return reservationService.getBookingDetailsService(id);
     }
 
-    @GetMapping("/payments/success/{id}")
-    public ResponseEntity<?> success(@PathVariable Long id) {
-        reservationService.confirmReservation(id);
+    @GetMapping("/payments/success/{bookingId}")
+    public ResponseEntity<?> success(@PathVariable("bookingId") String bookingId) {
+        reservationService.confirmReservation(bookingId);
         return ResponseEntity.ok("Payment successful");
     }
 
 //      once the payment method will be integrated then it will be activated
-    @GetMapping("/payments/failure/{id}")
-    public ResponseEntity<?> failure(@PathVariable Long id) {
-        reservationService.releaseReservation(id);
-        return ResponseEntity.ok("Payment failed");
-    }
+//    @GetMapping("/payments/failure/{id}")
+//    public ResponseEntity<?> failure(@PathVariable Long id) {
+//        reservationService.releaseReservation(id);
+//        return ResponseEntity.ok("Payment failed");
+//    }
 
     @GetMapping("/my-bookings")
     public ResponseEntity<?> fetchBookingByCustomer(Authentication authentication){
-        System.out.println(authentication);
         if(authentication==null)throw new RuntimeException("Authentication is Invalid or Null");
         String UserID = authentication.getName();
         List<ReservationDetailsResponse> a1 = reservationService.fetchBookingByCustomerService(UserID);
-        System.out.println(a1.size());
         return ResponseEntity.ok(a1);
     }
 
-//    @GetMapping("/")
-//    public void Dummy(){
-//        reservationService.dummyService();
-//    }
+
 }
