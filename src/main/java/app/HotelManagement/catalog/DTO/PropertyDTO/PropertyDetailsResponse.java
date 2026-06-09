@@ -1,6 +1,7 @@
-package app.HotelManagement.catalog.DTO;
+package app.HotelManagement.catalog.DTO.PropertyDTO;
 
 
+import app.HotelManagement.catalog.DTO.RoomTypeDTO.RoomTypeResponse;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,5 +17,5 @@ public class PropertyDetailsResponse {
     private String contactPhone;
     private Double lowestPrice;
     private Double ratings;
-    private List roomTypes;
+    private List<RoomTypeResponse> roomTypeResponseList;
 }

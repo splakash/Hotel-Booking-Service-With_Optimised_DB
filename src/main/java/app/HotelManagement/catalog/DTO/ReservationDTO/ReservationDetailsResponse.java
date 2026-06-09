@@ -1,4 +1,4 @@
-package app.HotelManagement.catalog.DTO;
+package app.HotelManagement.catalog.DTO.ReservationDTO;
 import app.HotelManagement.catalog.Entity.Enum.ReservationStatus;
 import lombok.*;
 

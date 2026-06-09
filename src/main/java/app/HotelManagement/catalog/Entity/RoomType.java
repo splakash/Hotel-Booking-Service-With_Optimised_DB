@@ -77,3 +77,6 @@ public class RoomType {
     public void onUpdate() { this.updatedAt = LocalDateTime.now(); }
 
 }
+
+//fields
+// id property (Mapped), List<Inventory> inventories, List<Reservation> reservations, basePrice, totalRooms, occupancyAdults ,occupancyChildren, description, createdAt, updatedAt;

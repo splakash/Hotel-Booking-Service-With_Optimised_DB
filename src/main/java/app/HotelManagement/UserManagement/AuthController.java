@@ -3,8 +3,8 @@ package app.HotelManagement.UserManagement;
 
 import app.HotelManagement.Services.AuthService;
 import app.HotelManagement.catalog.DTO.TokenDTO;
-import app.HotelManagement.catalog.DTO.userDetailsDTO;
-import app.HotelManagement.catalog.DTO.userNameDTO;
+import app.HotelManagement.catalog.DTO.UserDTO.userDetailsDTO;
+import app.HotelManagement.catalog.DTO.UserDTO.userNameDTO;
 import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.ResponseCookie;

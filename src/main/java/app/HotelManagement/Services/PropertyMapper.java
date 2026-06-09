@@ -1,6 +1,6 @@
 package app.HotelManagement.Services;
 
-import app.HotelManagement.catalog.DTO.PropertyDetailsResponse;
+import app.HotelManagement.catalog.DTO.PropertyDTO.PropertyDetailsResponse;
 import app.HotelManagement.catalog.Entity.Property;
 import org.springframework.stereotype.Component;
 
@@ -22,7 +22,7 @@ public class PropertyMapper  {
         response.setContactPhone(property.getContactPhone());
         response.setContactEmail(property.getContactEmail());
         response.setLowestPrice(lowestPrice);
-        response.setRoomTypes(null);
+        response.setRoomTypeResponseList(null);
 
         return response;
     }

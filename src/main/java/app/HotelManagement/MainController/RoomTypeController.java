@@ -2,8 +2,8 @@ package app.HotelManagement.MainController;
 
 
 import app.HotelManagement.Services.RoomTypeService;
-import app.HotelManagement.catalog.DTO.RoomTypeRequest;
-import app.HotelManagement.catalog.DTO.RoomTypeResponse;
+import app.HotelManagement.catalog.DTO.RoomTypeDTO.RoomTypeRequest;
+import app.HotelManagement.catalog.DTO.RoomTypeDTO.RoomTypeResponse;
 import app.HotelManagement.catalog.Entity.RoomType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

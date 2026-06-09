@@ -1,8 +1,8 @@
 package app.HotelManagement.Services;
 
 
-import app.HotelManagement.catalog.DTO.userDetailsDTO;
-import app.HotelManagement.catalog.DTO.userNameDTO;
+import app.HotelManagement.catalog.DTO.UserDTO.userDetailsDTO;
+import app.HotelManagement.catalog.DTO.UserDTO.userNameDTO;
 import app.HotelManagement.catalog.Entity.AppUser;
 import app.HotelManagement.catalog.Repository.AppUserRepo;
 import org.springframework.beans.factory.annotation.Autowired;

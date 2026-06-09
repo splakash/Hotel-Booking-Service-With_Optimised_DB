@@ -1,9 +1,7 @@
-package app.HotelManagement.catalog.DTO;
+package app.HotelManagement.catalog.DTO.RoomTypeDTO;
 
 import lombok.Getter;
 import lombok.Setter;
-
-import java.util.List;
 
 @Getter
 @Setter

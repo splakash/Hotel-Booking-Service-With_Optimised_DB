@@ -1,5 +1,6 @@
 package app.HotelManagement.catalog.Repository;
 
+import app.HotelManagement.catalog.DTO.PropertyDetailsProjection;
 import app.HotelManagement.catalog.Entity.Inventory;
 import app.HotelManagement.catalog.Entity.Property;
 import app.HotelManagement.catalog.Entity.RoomType;
@@ -36,5 +37,12 @@ public interface InventoryRepo extends JpaRepository<Inventory,Long> {
             @Param("property") Property property,
             @Param("roomType") RoomType roomType,
             @Param("finalDate") LocalDate finalDate
+    );
+
+    @Query(value = " SELECT p.id AS propertyId,p.name AS propertyName, p.contact_phone as contactPhone, p.contact_email as contactEmail, p.city AS city, p.state AS state, p.country AS country, rt.id AS roomTypeId, rt.description AS roomTypeDescription, rt.base_price AS basePrice, rt.total_rooms AS totalRooms,rt.occupancy_adults AS occupancyAdults,rt.occupancy_children AS occupancyChildren,MIN(rt.total_rooms - i.reserved_rooms - i.held_rooms) AS availableRooms FROM inventory i JOIN room_type rt  ON i.room_type_id = rt.id JOIN property p ON i.property_id = p.id WHERE i.date >= :checkIn AND i.date < :checkOut AND (:location IS NULL OR LOWER(p.city) LIKE LOWER(CONCAT('%', :location, '%')) OR LOWER(p.country) LIKE LOWER(CONCAT('%', :location, '%')) OR LOWER(p.state) LIKE LOWER(CONCAT('%', :location, '%'))) GROUP BY p.id, p.name, p.city, p.state, p.country,rt.id, rt.description, rt.base_price,rt.total_rooms, rt.occupancy_adults, rt.occupancy_children HAVING MIN(rt.total_rooms - i.reserved_rooms - i.held_rooms) > 0",nativeQuery = true)
+    List<PropertyDetailsProjection> fetchAvailableRoomTypeIds(
+            @Param("checkIn")    LocalDate checkIn,
+            @Param("checkOut")   LocalDate checkOut,
+            @Param("location")       String location
     );
 }

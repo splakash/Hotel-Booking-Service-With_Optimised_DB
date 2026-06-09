@@ -1,7 +1,7 @@
 package app.HotelManagement.catalog.Repository;
 
 
-import app.HotelManagement.catalog.DTO.ReservationDetailsResponse;
+import app.HotelManagement.catalog.DTO.ReservationDTO.ReservationDetailsResponse;
 import app.HotelManagement.catalog.Entity.Enum.ReservationStatus;
 import app.HotelManagement.catalog.Entity.Reservation;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -20,7 +20,7 @@ public interface ReservationRepo extends JpaRepository<Reservation,Long> {
 
 
     @Query("""
-       SELECT new app.HotelManagement.catalog.DTO.ReservationDetailsResponse(
+       SELECT new app.HotelManagement.catalog.DTO.ReservationDTO.ReservationDetailsResponse(
             r.checkIn,
             r.checkOut,
             r.code,
@@ -48,7 +48,7 @@ public interface ReservationRepo extends JpaRepository<Reservation,Long> {
 
 
     @Query("""
-       SELECT new app.HotelManagement.catalog.DTO.ReservationDetailsResponse(
+       SELECT new app.HotelManagement.catalog.DTO.ReservationDTO.ReservationDetailsResponse(
             r.checkIn,
             r.checkOut,
             r.code,

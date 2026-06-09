@@ -1,6 +1,6 @@
 package app.HotelManagement.ReservationManager.Mapper;
 
-import app.HotelManagement.catalog.DTO.ReservationRequest;
+import app.HotelManagement.catalog.DTO.ReservationDTO.ReservationRequest;
 import app.HotelManagement.catalog.Entity.Enum.ReservationStatus;
 import app.HotelManagement.catalog.Entity.Property;
 import app.HotelManagement.catalog.Entity.Reservation;

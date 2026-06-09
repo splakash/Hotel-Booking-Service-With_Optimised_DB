@@ -3,8 +3,8 @@ package app.HotelManagement.ReservationManager.Controller;
 
 
 import app.HotelManagement.ReservationManager.ReservationService.ReservationService;
-import app.HotelManagement.catalog.DTO.ReservationRequest;
-import app.HotelManagement.catalog.DTO.ReservationDetailsResponse;
+import app.HotelManagement.catalog.DTO.ReservationDTO.ReservationRequest;
+import app.HotelManagement.catalog.DTO.ReservationDTO.ReservationDetailsResponse;
 import app.HotelManagement.catalog.Entity.Reservation;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;

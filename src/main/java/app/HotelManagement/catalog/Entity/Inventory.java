@@ -74,3 +74,6 @@ public class Inventory {
 
 
 }
+
+//fields
+// id, property, roomtype, date, reservedRooms, heldRooms, createdAt, updatedAt;

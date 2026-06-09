@@ -1,4 +1,4 @@
-package app.HotelManagement.catalog.DTO;
+package app.HotelManagement.catalog.DTO.UserDTO;
 
 
 import app.HotelManagement.catalog.Entity.Enum.UserRole;

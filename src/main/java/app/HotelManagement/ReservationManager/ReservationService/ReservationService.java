@@ -5,28 +5,18 @@ import app.HotelManagement.ReservationManager.Mapper.ReservationMapper;
 import app.HotelManagement.Services.InventoryService;
 import app.HotelManagement.Services.PropertyService;
 import app.HotelManagement.Services.RoomTypeService;
-import app.HotelManagement.catalog.DTO.ReservationRequest;
-import app.HotelManagement.catalog.DTO.ReservationDetailsResponse;
+import app.HotelManagement.catalog.DTO.ReservationDTO.ReservationRequest;
+import app.HotelManagement.catalog.DTO.ReservationDTO.ReservationDetailsResponse;
 import app.HotelManagement.catalog.Entity.Enum.ReservationStatus;
-import app.HotelManagement.catalog.Entity.Inventory;
 import app.HotelManagement.catalog.Entity.Property;
 import app.HotelManagement.catalog.Entity.Reservation;
 import app.HotelManagement.catalog.Entity.RoomType;
-import app.HotelManagement.catalog.Repository.InventoryRepo;
-import app.HotelManagement.catalog.Repository.PropertyRepo;
 import app.HotelManagement.catalog.Repository.ReservationRepo;
-import app.HotelManagement.catalog.Repository.RoomTypeRepo;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 @AllArgsConstructor
 @Service

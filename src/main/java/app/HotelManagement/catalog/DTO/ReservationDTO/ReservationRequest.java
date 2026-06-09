@@ -1,4 +1,4 @@
-package app.HotelManagement.catalog.DTO;
+package app.HotelManagement.catalog.DTO.ReservationDTO;
 
 
 import jakarta.validation.constraints.*;

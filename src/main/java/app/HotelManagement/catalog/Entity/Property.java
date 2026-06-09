@@ -77,3 +77,6 @@ public class Property {
     public void onUpdate() { this.updatedAt = LocalDateTime.now(); }
 
 }
+//fields it has
+// id,name, address,contactEmail, contactPhone,inventories(List of Inventory Entity Mapped), reservations(List of Reservation Entity Mapped), updatedAt,createdAt
+

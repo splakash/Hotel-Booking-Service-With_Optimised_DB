@@ -1,9 +1,8 @@
 package app.HotelManagement.MainController;
 import app.HotelManagement.Services.PropertyDetailsService;
 import app.HotelManagement.Services.PropertyService;
-import app.HotelManagement.catalog.DTO.PropertyDetailsResponse;
-import app.HotelManagement.catalog.DTO.PropertyResponse;
-import app.HotelManagement.catalog.DTO.propertyRequest;
+import app.HotelManagement.catalog.DTO.PropertyDTO.PropertyDetailsResponse;
+import app.HotelManagement.catalog.DTO.PropertyDTO.PropertyResponse;
 import app.HotelManagement.catalog.Entity.Property;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
