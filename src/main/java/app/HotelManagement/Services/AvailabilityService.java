@@ -1,5 +1,6 @@
 package app.HotelManagement.Services;
 
+import app.HotelManagement.catalog.DTO.PropertyDTO.PropertyResponse;
 import app.HotelManagement.catalog.DTO.PropertyDetailsProjection;
 import app.HotelManagement.catalog.DTO.PropertyDTO.PropertyDetailsResponse;
 import app.HotelManagement.catalog.DTO.RoomTypeDTO.RoomTypeResponse;
@@ -23,7 +24,7 @@ public class AvailabilityService {
     private final RoomTypeRepo roomTypeRepo;
 
     @Transactional(readOnly = true)
-    public List<PropertyDetailsResponse> findAvailableProperties(
+    public List<PropertyResponse> findAvailableProperties(
             LocalDate checkIn,
             LocalDate checkOut,
             String location
@@ -43,70 +44,31 @@ public class AvailabilityService {
                 location
         );
 
-//        return searchResponse;
-        Map<Long, PropertyDetailsResponse> properties =
-                new LinkedHashMap<>();
+        HashSet< PropertyResponse> properties =
+                new HashSet<>();
 
         for (PropertyDetailsProjection row : searchResponse) {
 
-            PropertyDetailsResponse property =
-                    properties.computeIfAbsent(
-                            row.getPropertyId(),
-                            id -> {
-                                PropertyDetailsResponse dto =
-                                        new PropertyDetailsResponse();
-                                dto.setPropertyId(
+
+            PropertyResponse dto = new PropertyResponse();
+
+                                dto.setId(
                                         row.getPropertyId());
-                                dto.setPropertyName(
+                                dto.setName(
                                         row.getPropertyName());
                                   String address = row.getCity() + ", " +row.getState() + ", " + row.getCountry();
                                 dto.setAddress(
                                         address);
-                                dto.setContactEmail(
-                                        row.getContactEmail());
-
-                                dto.setContactPhone(
-                                        row.getContactPhone());
                                 dto.setRatings(
                                         row.getRatings());
+            Double lowestPrice = roomTypeService.lowestPricePerProperty(row.getPropertyId());
                                 dto.setLowestPrice(
-                                        row.getBasePrice());
-                                dto.setRoomTypeResponseList(
-                                        new ArrayList<>());
-                                return dto;
-                            });
-
-            RoomTypeResponse roomType =
-                    new RoomTypeResponse();
-            roomType.setId(
-                                    row.getRoomTypeId());
-            roomType.setDescription(
-                                    row.getRoomTypeDescription());
-            roomType.setBasePrice(
-                                    row.getBasePrice());
-            roomType.setTotalRoom(
-                                    row.getTotalRooms());
-            roomType.setOccupancyAdults(
-                                    row.getOccupancyAdults());
-            roomType.setOccupancyChildren(
-                                    row.getOccupancyChildren());
-//                            .availableRooms(
-//                                    row.getAvailableRooms())
-
-
-            property.getRoomTypeResponseList()
-                    .add(roomType);
-
-            if (row.getBasePrice()
-                    < property.getLowestPrice()) {
-
-                property.setLowestPrice(
-                        row.getBasePrice());
-            }
+                                        lowestPrice);
+                                properties.add(dto);
         }
 
         return new ArrayList<>(
-                properties.values());
+                properties);
 
     }
 

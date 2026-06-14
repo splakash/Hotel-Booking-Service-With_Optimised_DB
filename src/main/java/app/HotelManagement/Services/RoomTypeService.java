@@ -145,4 +145,9 @@ public class RoomTypeService {
     public List<RoomType> getAll(){
         return roomTypeRepo.findAll();
     }
+
+    public Double lowestPricePerProperty(Long propertyId){
+        return roomTypeRepo.findLowestPriceByPropertyId(propertyId);
+    }
+
 }

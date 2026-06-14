@@ -22,7 +22,9 @@ public class PropertyService {
     private PropertyRepo propertyRepo;
 
     @Autowired
-    private RoomTypeRepo roomTypeRepo;
+    private RoomTypeService roomTypeService;
+
+
 
 
 
@@ -31,7 +33,7 @@ public class PropertyService {
         return properties.stream().map(p -> {
 
 
-            Double lowestPrice = roomTypeRepo.findLowestPriceByPropertyId(p.getId());
+            Double lowestPrice = roomTypeService.lowestPricePerProperty(p.getId());
 
             PropertyResponse dto = new PropertyResponse();
             dto.setId(p.getId());

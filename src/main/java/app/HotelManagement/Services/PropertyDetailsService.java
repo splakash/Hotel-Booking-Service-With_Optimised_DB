@@ -48,7 +48,7 @@ public class PropertyDetailsService {
         propertyDetailsResponse.setContactPhone(property.getContactPhone());
         propertyDetailsResponse.setContactEmail(property.getContactEmail());
         propertyDetailsResponse.setLowestPrice(lowestPrice);
-        propertyDetailsResponse.setRoomTypeResponseList(roomTypes);
+        propertyDetailsResponse.setRoomTypes(roomTypes);
         return propertyDetailsResponse;
     }
 }

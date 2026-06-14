@@ -17,5 +17,5 @@ public class PropertyDetailsResponse {
     private String contactPhone;
     private Double lowestPrice;
     private Double ratings;
-    private List<RoomTypeResponse> roomTypeResponseList;
+    private List roomTypes;
 }

@@ -22,7 +22,7 @@ public class PropertyMapper  {
         response.setContactPhone(property.getContactPhone());
         response.setContactEmail(property.getContactEmail());
         response.setLowestPrice(lowestPrice);
-        response.setRoomTypeResponseList(null);
+        response.setRoomTypes(null);
 
         return response;
     }
