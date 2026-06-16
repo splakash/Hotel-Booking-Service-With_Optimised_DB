@@ -14,7 +14,7 @@ public class CorsConfig implements WebMvcConfigurer {
         registry.addMapping("/**")   // apply to all endpoints
                 .allowedOrigins("https://hotel-booking-service-frontend.vercel.app")
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
-                .allowedHeaders(String.valueOf(List.of("Authorization","Content-Type")))
+                .allowedHeaders("*")
                 .allowCredentials(true)
                 .maxAge(3600);
     }
