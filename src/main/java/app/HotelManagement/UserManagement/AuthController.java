@@ -85,8 +85,8 @@ public class AuthController {
         String token = jwtUtil.generateToken(authentication.getName(),userDto.getRole().toString());
         ResponseCookie cookie = ResponseCookie.from("jwt", token)
                 .httpOnly(true)
-                .secure(false)            // keep false for local dev (HTTP), true in production
-                .sameSite("Lax")          // Lax works when frontend/backend are same host
+                .secure(true)            // keep false for local dev (HTTP), true in production
+                .sameSite("None")          // use Lax for Dev Lax works when frontend/backend are same host
                 .path("/")
                 .maxAge(Duration.ofDays(1))
                 .build();
