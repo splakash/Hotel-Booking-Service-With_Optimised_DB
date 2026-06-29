@@ -1,6 +1,7 @@
 package app.HotelManagement.UserManagement;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -22,7 +23,15 @@ import java.util.List;
 @RequiredArgsConstructor
 public class WebConfiguration {
 
+    @Autowired
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
+
+    @Autowired
+    private final OAuth2FailureHandler oAuth2FailureHandler;
+
+    @Autowired
+    private final OAuth2SuccessHandler oAuth2SuccessHandler;
+
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -37,10 +46,20 @@ public class WebConfiguration {
                 .sessionManagement(session ->
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
+                .oauth2Login(oauth->oauth
+//                        .userInfoEndpoint(user->
+//                                user.userService(
+//                                        customOAuth2UserService
+//                                ))
+                        .successHandler(
+                                oAuth2SuccessHandler
+                        ).failureHandler(
+                                oAuth2FailureHandler))
                 .addFilterBefore(
                         jwtAuthenticationFilter,
                         UsernamePasswordAuthenticationFilter.class
-                );
+                )
+                ;
 
         return http.build();
     }
@@ -78,16 +97,5 @@ public class WebConfiguration {
         source.registerCorsConfiguration("/**", configuration);
 
         return source;
-    }
-
-    @Bean
-    public AuthenticationManager authenticationManager(
-            AuthenticationConfiguration config) throws Exception {
-        return config.getAuthenticationManager();
-    }
-
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
     }
 }

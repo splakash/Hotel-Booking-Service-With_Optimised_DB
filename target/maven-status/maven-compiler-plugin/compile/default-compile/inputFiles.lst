@@ -16,6 +16,7 @@ D:\Spring boot\HotelManagement\src\main\java\app\HotelManagement\catalog\Entity\
 D:\Spring boot\HotelManagement\src\main\java\app\HotelManagement\catalog\Entity\Chatbot\FAQsEntity.java
 D:\Spring boot\HotelManagement\src\main\java\app\HotelManagement\catalog\Entity\Chatbot\FAQsRequest.java
 D:\Spring boot\HotelManagement\src\main\java\app\HotelManagement\catalog\Entity\Chatbot\GeminiRequest.java
+D:\Spring boot\HotelManagement\src\main\java\app\HotelManagement\catalog\Entity\Enum\AuthProvider.java
 D:\Spring boot\HotelManagement\src\main\java\app\HotelManagement\catalog\Entity\Enum\PaymentMethod.java
 D:\Spring boot\HotelManagement\src\main\java\app\HotelManagement\catalog\Entity\Enum\PaymentStatus.java
 D:\Spring boot\HotelManagement\src\main\java\app\HotelManagement\catalog\Entity\Enum\ReservationStatus.java
@@ -57,6 +58,7 @@ D:\Spring boot\HotelManagement\src\main\java\app\HotelManagement\ReservationMana
 D:\Spring boot\HotelManagement\src\main\java\app\HotelManagement\ReservationManager\ReservationService\ReservationValidator.java
 D:\Spring boot\HotelManagement\src\main\java\app\HotelManagement\Scheduler\ReservationExpiryScheduler.java
 D:\Spring boot\HotelManagement\src\main\java\app\HotelManagement\SelfPingScheduler.java
+D:\Spring boot\HotelManagement\src\main\java\app\HotelManagement\Services\AppUserService.java
 D:\Spring boot\HotelManagement\src\main\java\app\HotelManagement\Services\AuthService.java
 D:\Spring boot\HotelManagement\src\main\java\app\HotelManagement\Services\AvailabilityService.java
 D:\Spring boot\HotelManagement\src\main\java\app\HotelManagement\Services\Chatbot\ChatService.java
@@ -68,8 +70,11 @@ D:\Spring boot\HotelManagement\src\main\java\app\HotelManagement\Services\Proper
 D:\Spring boot\HotelManagement\src\main\java\app\HotelManagement\Services\RoomService.java
 D:\Spring boot\HotelManagement\src\main\java\app\HotelManagement\Services\RoomTypeService.java
 D:\Spring boot\HotelManagement\src\main\java\app\HotelManagement\UserManagement\AuthController.java
+D:\Spring boot\HotelManagement\src\main\java\app\HotelManagement\UserManagement\BeanConfiguration.java
 D:\Spring boot\HotelManagement\src\main\java\app\HotelManagement\UserManagement\CorsConfig.java
 D:\Spring boot\HotelManagement\src\main\java\app\HotelManagement\UserManagement\CustomUserDetailsService.java
 D:\Spring boot\HotelManagement\src\main\java\app\HotelManagement\UserManagement\JwtAuthenticationFilter.java
 D:\Spring boot\HotelManagement\src\main\java\app\HotelManagement\UserManagement\JwtUtil.java
+D:\Spring boot\HotelManagement\src\main\java\app\HotelManagement\UserManagement\OAuth2FailureHandler.java
+D:\Spring boot\HotelManagement\src\main\java\app\HotelManagement\UserManagement\OAuth2SuccessHandler.java
 D:\Spring boot\HotelManagement\src\main\java\app\HotelManagement\UserManagement\WebConfiguration.java

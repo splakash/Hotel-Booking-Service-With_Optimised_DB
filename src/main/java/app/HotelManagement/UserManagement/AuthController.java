@@ -90,8 +90,8 @@ public class AuthController {
                 .path("/")
                 .maxAge(Duration.ofDays(1))
                 .build();
-//        response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
         Map<String, String> body = new HashMap<>();
+//        body we need to add name
         body.put("username", authentication.getName());
         body.put("role", String.valueOf(userDto.getRole()));
         return ResponseEntity.ok()
@@ -117,6 +117,5 @@ public class AuthController {
         }
     }
 
-    //api for log out
 
 }

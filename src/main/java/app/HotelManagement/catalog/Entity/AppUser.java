@@ -1,5 +1,6 @@
 package app.HotelManagement.catalog.Entity;
 
+import app.HotelManagement.catalog.Entity.Enum.AuthProvider;
 import app.HotelManagement.catalog.Entity.Enum.UserRole;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -29,8 +30,13 @@ public class AppUser {
     @Column(nullable = false)
     private boolean enabled = true;
 
-    @Column(name = "last_login_at")
-    private LocalDateTime lastLoginAt;
+    @Column(nullable = true)
+    private String name;
+
+    private String googleId;
+
+    @Enumerated(EnumType.STRING)
+    private AuthProvider authProvider;
 
     // ---- Audit ----
     @Column(name = "created_at", updatable = false)

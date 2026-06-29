@@ -22,6 +22,9 @@ public class AuthService {
 
         AppUser appUser = new AppUser();
         appUser.setUsername(user.getUsername());
+        appUser.setName(user.getName());
+        appUser.setGoogleId(user.getGoogleId());
+        appUser.setAuthProvider(user.getAuthProvider());
         appUser.setPassword(passwordEncoder.encode(user.getPassword())); // hash password
         appUser.setRole(user.getRole());
         UserRepo.save(appUser);

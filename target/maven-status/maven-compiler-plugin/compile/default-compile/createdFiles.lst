@@ -1,3 +1,4 @@
+app\HotelManagement\catalog\Entity\Enum\AuthProvider.class
 app\HotelManagement\ExceptionHandler\InventoryUnavailableException.class
 app\HotelManagement\catalog\Entity\Enum\ReservationStatus.class
 app\HotelManagement\catalog\Repository\AppUserRepo.class
@@ -8,6 +9,7 @@ app\HotelManagement\Scheduler\ReservationExpiryScheduler.class
 app\HotelManagement\catalog\DTO\PropertyDTO\propertyRequest.class
 app\HotelManagement\Services\AvailabilityService.class
 app\HotelManagement\catalog\DTO\UserDTO\userNameDTO.class
+app\HotelManagement\UserManagement\OAuth2SuccessHandler.class
 app\HotelManagement\ExceptionHandler\InventoryNotFoundException.class
 app\HotelManagement\catalog\Entity\Payment.class
 app\HotelManagement\SelfPingScheduler.class
@@ -38,6 +40,7 @@ app\HotelManagement\catalog\Repository\PropertyRepo.class
 app\HotelManagement\catalog\DTO\SearchRequest.class
 app\HotelManagement\catalog\Entity\Enum\RoomStatus.class
 app\HotelManagement\UserManagement\JwtAuthenticationFilter.class
+app\HotelManagement\UserManagement\BeanConfiguration.class
 app\HotelManagement\Services\RoomTypeService.class
 app\HotelManagement\MainController\PropertyController.class
 app\HotelManagement\catalog\Entity\AppUser.class
@@ -46,6 +49,7 @@ app\HotelManagement\MainController\Chatbot\FaqController.class
 app\HotelManagement\ReservationManager\Controller\ReservationController.class
 app\HotelManagement\UserManagement\CustomUserDetailsService.class
 app\HotelManagement\catalog\Entity\Inventory.class
+app\HotelManagement\Services\AppUserService.class
 app\HotelManagement\catalog\DTO\RoomRequest.class
 app\HotelManagement\catalog\Entity\Enum\PaymentMethod.class
 app\HotelManagement\catalog\Entity\Enum\UserRole.class
@@ -58,6 +62,7 @@ app\HotelManagement\Services\InventoryService.class
 app\HotelManagement\catalog\Entity\Payment$PaymentBuilder.class
 app\HotelManagement\ReservationManager\ReservationService\ReservationExpiryService.class
 app\HotelManagement\Services\AuthService.class
+app\HotelManagement\UserManagement\OAuth2FailureHandler.class
 app\HotelManagement\UserManagement\WebConfiguration.class
 app\HotelManagement\catalog\DTO\PropertyDetailsProjection.class
 app\HotelManagement\catalog\DTO\ReservationDTO\ReservationRequest.class

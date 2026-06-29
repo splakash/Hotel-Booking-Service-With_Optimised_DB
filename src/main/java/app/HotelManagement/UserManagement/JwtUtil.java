@@ -42,35 +42,7 @@ public class JwtUtil {
                 .compact();
     }
 
-//    public String extractUsername(String jwtToken) {
-//        try {
-//            Claims claims = Jwts.parserBuilder()
-//                    .setSigningKey(getSigningKey())
-//                    .build()
-//                    .parseClaimsJws(jwtToken)
-//                    .getBody();
-//
-//            return claims.getSubject();
-//
-//        } catch (SignatureException e) {
-//            throw new RuntimeException("Invalid JWT signature");
-//        }
-//    }
 
-//    public boolean isTokenValid(String jwtToken, UserDetails userDetails){
-//        final String username = extractUsername(jwtToken);
-//        return (username.equals(userDetails.getUsername()) && !isTokenExpired(jwtToken));
-//    }
-
-//    public boolean isTokenExpired(String token) {
-//        Claims claims = Jwts.parserBuilder()
-//                .setSigningKey(getSigningKey())   // consistent with extractUsername
-//                .build()
-//                .parseClaimsJws(token)
-//                .getBody();
-//        return claims.getExpiration().before(new Date());
-//    }
-    // CLEANER VERSION — single parse, no duplication
         private Claims extractAllClaims(String token) {
             return Jwts.parserBuilder()
             .setSigningKey(getSigningKey())
